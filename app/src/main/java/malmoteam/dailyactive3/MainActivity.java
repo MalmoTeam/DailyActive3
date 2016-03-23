@@ -3,6 +3,7 @@ package malmoteam.dailyactive3;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +19,22 @@ public class MainActivity extends AppCompatActivity {
     private TaskDBHelper helper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SQLiteDatabase sqlDB = new TaskDBHelper(this).getWritableDatabase();
+        Cursor cursor = sqlDB.query(TaskContract.TABLE,
+                new String[]{TaskContract.Columns.TASK},
+                null,null,null,null,null);
+
+        cursor.moveToFirst();
+        while(cursor.moveToNext()) {
+            Log.d("MainActivity cursor",
+                    cursor.getString(
+                            cursor.getColumnIndexOrThrow(
+                                    TaskContract.Columns.TASK)));
+        }
     }
 
     @Override
