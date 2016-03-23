@@ -25,5 +25,6 @@
         android:id="@+id/doneButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:onClick="onDoneButtonClick"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>
