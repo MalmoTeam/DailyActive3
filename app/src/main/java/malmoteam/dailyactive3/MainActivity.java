@@ -15,6 +15,7 @@ import db.TaskContract;
 import db.TaskDBHelper;
 
 public class MainActivity extends AppCompatActivity {
+    private TaskDBHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
