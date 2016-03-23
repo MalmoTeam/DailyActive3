@@ -64,6 +64,7 @@ public class MainActivity extends ListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("menu", "onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
