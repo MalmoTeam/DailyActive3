@@ -1,4 +1,4 @@
-package malmoteam.dailyactive3;
+package db;
 
 
 /**
@@ -9,6 +9,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import db.TaskContract;
 
 public class TaskDBHelper extends SQLiteOpenHelper {
 

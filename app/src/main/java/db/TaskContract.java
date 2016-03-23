@@ -1,4 +1,4 @@
-package malmoteam.dailyactive3;
+package db;
 
 /**
  * Created by Amer on 23-Mar-16.

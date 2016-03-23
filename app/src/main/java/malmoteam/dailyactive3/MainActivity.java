@@ -1,13 +1,18 @@
 package malmoteam.dailyactive3;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import db.TaskContract;
+import db.TaskDBHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +40,19 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d("MainActivity",inputField.getText().toString());
+                        //Log.d("MainActivity",inputField.getText().toString());
+                        String task = inputField.getText().toString();
+                        Log.d("MainActivity",task);
+
+                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+
+                        values.clear();
+                        values.put(TaskContract.Columns.TASK,task);
+
+                        db.insertWithOnConflict(TaskContract.TABLE,null,values,
+                                SQLiteDatabase.CONFLICT_IGNORE);
                     }
                 });
 
