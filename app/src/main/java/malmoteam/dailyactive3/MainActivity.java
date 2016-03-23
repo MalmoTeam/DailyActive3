@@ -1,6 +1,7 @@
 package malmoteam.dailyactive3;
 
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -11,35 +12,57 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.SimpleCursorAdapter;
 
 import db.TaskContract;
 import db.TaskDBHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
     private TaskDBHelper helper;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        updateUI();
 
-        SQLiteDatabase sqlDB = new TaskDBHelper(this).getWritableDatabase();
+/*        SQLiteDatabase sqlDB = new TaskDBHelper(this).getWritableDatabase();
         Cursor cursor = sqlDB.query(TaskContract.TABLE,
                 new String[]{TaskContract.Columns.TASK},
-                null,null,null,null,null);
+                null, null, null, null, null);
 
         cursor.moveToFirst();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             Log.d("MainActivity cursor",
                     cursor.getString(
                             cursor.getColumnIndexOrThrow(
                                     TaskContract.Columns.TASK)));
         }
+        */
+    }
+
+    private void updateUI() {
+        helper = new TaskDBHelper(MainActivity.this);
+        SQLiteDatabase sqlDB = helper.getReadableDatabase();
+        Cursor cursor = sqlDB.query(TaskContract.TABLE,
+                new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK},
+                null,null,null,null,null);
+
+        SimpleCursorAdapter listAdapter = new SimpleCursorAdapter(
+                this,
+                R.layout.task_view,
+                cursor,
+                new String[] { TaskContract.Columns.TASK},
+                new int[] { R.id.taskTextView},
+                0
+        );
+        this.setListAdapter(listAdapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -57,21 +80,21 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Log.d("MainActivity",inputField.getText().toString());
                         String task = inputField.getText().toString();
-                        Log.d("MainActivity",task);
+                        Log.d("MainActivity", task);
 
                         TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
                         SQLiteDatabase db = helper.getWritableDatabase();
                         ContentValues values = new ContentValues();
 
                         values.clear();
-                        values.put(TaskContract.Columns.TASK,task);
+                        values.put(TaskContract.Columns.TASK, task);
 
-                        db.insertWithOnConflict(TaskContract.TABLE,null,values,
+                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
                                 SQLiteDatabase.CONFLICT_IGNORE);
                     }
                 });
 
-                builder.setNegativeButton("Cancel",null);
+                builder.setNegativeButton("Cancel", null);
 
                 builder.create().show();
                 return true;
