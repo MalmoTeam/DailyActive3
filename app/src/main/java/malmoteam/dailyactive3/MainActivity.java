@@ -94,6 +94,8 @@ public class MainActivity extends ListActivity {
 
                         db.insertWithOnConflict(TaskContract.TABLE, null, values,
                                 SQLiteDatabase.CONFLICT_IGNORE);
+
+                        updateUI();
                     }
                 });
 
