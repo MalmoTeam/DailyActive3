@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -28,35 +29,21 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         updateUI();
-
-/*        SQLiteDatabase sqlDB = new TaskDBHelper(this).getWritableDatabase();
-        Cursor cursor = sqlDB.query(TaskContract.TABLE,
-                new String[]{TaskContract.Columns.TASK},
-                null, null, null, null, null);
-
-        cursor.moveToFirst();
-        while (cursor.moveToNext()) {
-            Log.d("MainActivity cursor",
-                    cursor.getString(
-                            cursor.getColumnIndexOrThrow(
-                                    TaskContract.Columns.TASK)));
-        }
-        */
     }
 
     private void updateUI() {
         helper = new TaskDBHelper(MainActivity.this);
         SQLiteDatabase sqlDB = helper.getReadableDatabase();
         Cursor cursor = sqlDB.query(TaskContract.TABLE,
-                new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK},
+                new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
                 null, null, null, null, null);
 
         SimpleCursorAdapter listAdapter = new SimpleCursorAdapter(
                 this,
                 R.layout.task_view,
                 cursor,
-                new String[]{TaskContract.Columns.TASK},
-                new int[]{R.id.taskTextView},
+                new String[]{TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
+                new int[]{R.id.taskTextView, R.id.taskTextView2},
                 0
         );
         this.setListAdapter(listAdapter);
@@ -72,13 +59,13 @@ public class MainActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_ID:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Add a task");
-                builder.setMessage("What do you want to do?");
+            case R.id.action_add_ID: //important dead line
+                AlertDialog.Builder builderID = new AlertDialog.Builder(this);
+                builderID.setTitle("Add a task");
+                builderID.setMessage("What do you want to do?");
                 final EditText inputField = new EditText(this);
-                builder.setView(inputField);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                builderID.setView(inputField);
+                builderID.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Log.d("MainActivity",inputField.getText().toString());
@@ -91,6 +78,7 @@ public class MainActivity extends ListActivity {
 
                         values.clear();
                         values.put(TaskContract.Columns.TASK, task);
+                        values.put(TaskContract.Columns.TASK_TYPE, 1);
 
                         db.insertWithOnConflict(TaskContract.TABLE, null, values,
                                 SQLiteDatabase.CONFLICT_IGNORE);
@@ -99,17 +87,55 @@ public class MainActivity extends ListActivity {
                     }
                 });
 
-                builder.setNegativeButton("Cancel", null);
+                builderID.setNegativeButton("Cancel", null);
 
-                builder.create().show();
+                builderID.create().show();
+
+//                final DatePicker dateFieldIO = new DatePicker(this);
+//                builderID.setView(dateFieldIO);
+//                builderID.create().show();
+//
                 return true;
 
-            case R.id.action_add_IO:
-                //TODO:
+            case R.id.action_add_IO: //Important Open
+                AlertDialog.Builder builderIO = new AlertDialog.Builder(this);
+                builderIO.setTitle("Add a Important Open Task");
+                builderIO.setMessage("What do you want to do?");
+                final EditText inputFieldIO = new EditText(this);
+                builderIO.setView(inputFieldIO);
+                builderIO.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Log.d("MainActivity",inputField.getText().toString());
+                        String task = inputFieldIO.getText().toString();
+                        Log.d("MainActivity", task);
+
+                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+
+                        values.clear();
+                        values.put(TaskContract.Columns.TASK, task);
+                        values.put(TaskContract.Columns.TASK_TYPE, 2); // for IO important open
+
+                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
+                                SQLiteDatabase.CONFLICT_IGNORE);
+
+                        updateUI();
+                    }
+                });
+
+
+                builderIO.setNegativeButton("Cancel", null);
+                builderIO.create().show();
+                return true;
+
             case R.id.action_add_ND:
                 //TODO:
+
             case R.id.action_add_NO:
                 //TODO:
+
             default:
                 return false;
         }
@@ -123,7 +149,7 @@ public class MainActivity extends ListActivity {
         String sql = String.format("DELETE FROM %s WHERE %s = '%s'",
                 TaskContract.TABLE,
                 TaskContract.Columns.TASK,
-                task);
+                task); //it has small bug the all task with same name will be deleted
 
 
         helper = new TaskDBHelper(MainActivity.this);
