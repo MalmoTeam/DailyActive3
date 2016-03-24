@@ -3,9 +3,27 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_add_task"
+    <item android:id="@+id/action_add_ID"
         android:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/add_red"
+        android:title="Add Task"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/action_add_IO"
+        android:showAsAction="always"
+        android:icon="@drawable/add_yellow"
+        android:title="Add Task"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/action_add_ND"
+        android:showAsAction="always"
+        android:icon="@drawable/add_green"
+        android:title="Add Task"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/action_add_NO"
+        android:showAsAction="always"
+        android:icon="@drawable/add_blue"
         android:title="Add Task"
         tools:ignore="AppCompatResource" />
 

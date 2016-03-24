@@ -55,8 +55,8 @@ public class MainActivity extends ListActivity {
                 this,
                 R.layout.task_view,
                 cursor,
-                new String[] { TaskContract.Columns.TASK},
-                new int[] { R.id.taskTextView},
+                new String[]{TaskContract.Columns.TASK},
+                new int[]{R.id.taskTextView},
                 0
         );
         this.setListAdapter(listAdapter);
@@ -72,7 +72,7 @@ public class MainActivity extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_task:
+            case R.id.action_add_ID:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Add a task");
                 builder.setMessage("What do you want to do?");
@@ -104,6 +104,12 @@ public class MainActivity extends ListActivity {
                 builder.create().show();
                 return true;
 
+            case R.id.action_add_IO:
+                //TODO:
+            case R.id.action_add_ND:
+                //TODO:
+            case R.id.action_add_NO:
+                //TODO:
             default:
                 return false;
         }
