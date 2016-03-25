@@ -34,7 +34,7 @@ public class MainActivity extends ListActivity {
         SQLiteDatabase sqlDB = helper.getReadableDatabase();
         Cursor cursor = sqlDB.query(TaskContract.TABLE,
                 new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
-                null, null, null, null, null);
+                null, null, null, null, TaskContract.Columns.TASK_TYPE);
 
         AdvSimpleCursorAdapter listAdapter = new AdvSimpleCursorAdapter(
                 this,
