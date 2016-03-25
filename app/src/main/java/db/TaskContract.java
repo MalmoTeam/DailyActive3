@@ -13,7 +13,7 @@ public class TaskContract {
 
     public class Columns {
         public static final String TASK = "task";
-        public static final String TASK_TYPE = "task_type"; //1-ID, 2-IO, 3-ND, 4-NO
+        public static final String TASK_TYPE = "task_type"; //1-ID(important with deadlines), 2-IO(important open), 3-ND(not important but deadlines), 4-NO(not important open)
         public static final String _ID = BaseColumns._ID;
     }
 }
