@@ -63,13 +63,13 @@ public class MainActivity extends ListActivity {
                 AlertDialog.Builder builderID = new AlertDialog.Builder(this);
                 builderID.setTitle("Add a important task");
                 builderID.setMessage("What do you want to do?");
-                final EditText inputField = new EditText(this);
-                builderID.setView(inputField);
+                final EditText inputFieldID = new EditText(this);
+                builderID.setView(inputFieldID);
                 builderID.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Log.d("MainActivity",inputField.getText().toString());
-                        String task = inputField.getText().toString();
+                        String task = inputFieldID.getText().toString();
                         Log.d("MainActivity", task);
 
                         TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
@@ -131,10 +131,68 @@ public class MainActivity extends ListActivity {
                 return true;
 
             case R.id.action_add_ND:
-                //TODO:
+                AlertDialog.Builder builderND = new AlertDialog.Builder(this);
+                builderND.setTitle("Add a non important task with dead line");
+                builderND.setMessage("What do you want to do?");
+                final EditText inputFieldND = new EditText(this);
+                builderND.setView(inputFieldND);
+                builderND.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Log.d("MainActivity",inputField.getText().toString());
+                        String task = inputFieldND.getText().toString();
+                        Log.d("MainActivity", task);
+
+                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+
+                        values.clear();
+                        values.put(TaskContract.Columns.TASK, task);
+                        values.put(TaskContract.Columns.TASK_TYPE, 3);
+
+                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
+                                SQLiteDatabase.CONFLICT_IGNORE);
+
+                        updateUI();
+                    }
+                });
+
+                builderND.setNegativeButton("Cancel", null);
+
+                builderND.create().show();
 
             case R.id.action_add_NO:
-                //TODO:
+                AlertDialog.Builder builderNO = new AlertDialog.Builder(this);
+                builderNO.setTitle("Add a non important task");
+                builderNO.setMessage("What do you want to do?");
+                final EditText inputFieldNO = new EditText(this);
+                builderNO.setView(inputFieldNO);
+                builderNO.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Log.d("MainActivity",inputField.getText().toString());
+                        String task = inputFieldNO.getText().toString();
+                        Log.d("MainActivity", task);
+
+                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+
+                        values.clear();
+                        values.put(TaskContract.Columns.TASK, task);
+                        values.put(TaskContract.Columns.TASK_TYPE, 4);
+
+                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
+                                SQLiteDatabase.CONFLICT_IGNORE);
+
+                        updateUI();
+                    }
+                });
+
+                builderNO.setNegativeButton("Cancel", null);
+
+                builderNO.create().show();
 
             default:
                 return false;
@@ -150,7 +208,6 @@ public class MainActivity extends ListActivity {
                 TaskContract.TABLE,
                 TaskContract.Columns.TASK,
                 task); //it has small bug the all task with same name will be deleted
-
 
         helper = new TaskDBHelper(MainActivity.this);
         SQLiteDatabase sqlDB = helper.getWritableDatabase();
