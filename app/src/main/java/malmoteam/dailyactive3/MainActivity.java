@@ -161,6 +161,7 @@ public class MainActivity extends ListActivity {
                 builderND.setNegativeButton("Cancel", null);
 
                 builderND.create().show();
+                return true;
 
             case R.id.action_add_NO:
                 AlertDialog.Builder builderNO = new AlertDialog.Builder(this);
@@ -193,6 +194,7 @@ public class MainActivity extends ListActivity {
                 builderNO.setNegativeButton("Cancel", null);
 
                 builderNO.create().show();
+                return true;
 
             default:
                 return false;
