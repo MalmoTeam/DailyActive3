@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import db.TaskContract;
 import db.TaskDBHelper;
@@ -79,7 +82,6 @@ public class MainActivity extends ListActivity {
 
                         Log.d("MainActivity", taskName);
 
-                        final String taskDate = "1900-01-01 00:00:00 UTC"; //TODO: take value from datepicker
 
                         AlertDialog.Builder builderDateID = new AlertDialog.Builder(passableThis);
                         final DatePicker inputFieldDate = new DatePicker(passableThis);
@@ -92,6 +94,14 @@ public class MainActivity extends ListActivity {
                                 TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
                                 SQLiteDatabase db = helper.getWritableDatabase();
                                 ContentValues values = new ContentValues();
+
+//                                TimeZone tz = TimeZone.getTimeZone("UTC");
+//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//                                df.setTimeZone(tz);
+                                Date d = new Date(inputFieldDate.getYear() - 1900,inputFieldDate.getMonth(),inputFieldDate.getDayOfMonth());
+
+                                String taskDate = df.format(d);
 
                                 values.clear();
                                 values.put(TaskContract.Columns.TASK, taskName);
