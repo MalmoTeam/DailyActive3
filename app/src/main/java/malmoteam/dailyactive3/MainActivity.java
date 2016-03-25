@@ -38,15 +38,17 @@ public class MainActivity extends ListActivity {
                 new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
                 null, null, null, null, null);
 
-        SimpleCursorAdapter listAdapter = new SimpleCursorAdapter(
+        AdvSimpleCursorAdapter listAdapter = new AdvSimpleCursorAdapter(
                 this,
                 R.layout.task_view,
                 cursor,
                 new String[]{TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
-                new int[]{R.id.taskTextView, R.id.taskTextView2},
+                new int[]{R.id.taskTextView, R.id.taskViewLayout},
                 0
         );
+        
         this.setListAdapter(listAdapter);
+        
     }
 
     @Override
