@@ -65,23 +65,21 @@ public class MainActivity extends ListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        final MainActivity passableThis = this;
+
         switch (item.getItemId()) {
             case R.id.action_add_ID: //important dead line
                 AlertDialog.Builder builderID = new AlertDialog.Builder(this);
                 builderID.setTitle("Add a important task");
                 builderID.setMessage("What do you want to do?");
                 final EditText inputFieldID = new EditText(this);
-                final MainActivity passableThis = this;
 
                 builderID.setView(inputFieldID);
                 builderID.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //Log.d("MainActivity",inputField.getText().toString());
                         final String taskName = inputFieldID.getText().toString();
-
-                        Log.d("MainActivity", taskName);
-
 
                         AlertDialog.Builder builderDateID = new AlertDialog.Builder(passableThis);
                         final DatePicker inputFieldDate = new DatePicker(passableThis);
@@ -167,25 +165,47 @@ public class MainActivity extends ListActivity {
                 builderND.setMessage("What do you want to do?");
                 final EditText inputFieldND = new EditText(this);
                 builderND.setView(inputFieldND);
+
                 builderND.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Log.d("MainActivity",inputField.getText().toString());
-                        String task = inputFieldND.getText().toString();
-                        Log.d("MainActivity", task);
+                        final String taskName = inputFieldND.getText().toString();
 
-                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
-                        SQLiteDatabase db = helper.getWritableDatabase();
-                        ContentValues values = new ContentValues();
+                        AlertDialog.Builder builderDateND = new AlertDialog.Builder(passableThis);
+                        final DatePicker inputFieldDate = new DatePicker(passableThis);
+                        builderDateND.setView(inputFieldDate);
+                        builderDateND.setNegativeButton("Cancel", null);
+                        builderDateND.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                        values.clear();
-                        values.put(TaskContract.Columns.TASK, task);
-                        values.put(TaskContract.Columns.TASK_TYPE, 3);
+                                TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                ContentValues values = new ContentValues();
 
-                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
-                                SQLiteDatabase.CONFLICT_IGNORE);
+//                                TimeZone tz = TimeZone.getTimeZone("UTC");
+//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//                                df.setTimeZone(tz);
+                                Date d = new Date(inputFieldDate.getYear() - 1900, inputFieldDate.getMonth(), inputFieldDate.getDayOfMonth());
 
-                        updateUI();
+                                String taskDate = df.format(d);
+
+                                values.clear();
+                                values.put(TaskContract.Columns.TASK, taskName);
+                                values.put(TaskContract.Columns.TASK_TYPE, 3);
+                                values.put(TaskContract.Columns.TASK_DATE, taskDate);
+
+                                db.insertWithOnConflict(TaskContract.TABLE, null, values,
+                                        SQLiteDatabase.CONFLICT_IGNORE);
+
+                                updateUI();
+                            }
+                        });
+
+                        builderDateND.create().show();
+
                     }
                 });
 
