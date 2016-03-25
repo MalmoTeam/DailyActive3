@@ -6,13 +6,11 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -61,7 +59,7 @@ public class MainActivity extends ListActivity {
         switch (item.getItemId()) {
             case R.id.action_add_ID: //important dead line
                 AlertDialog.Builder builderID = new AlertDialog.Builder(this);
-                builderID.setTitle("Add a task");
+                builderID.setTitle("Add a important task");
                 builderID.setMessage("What do you want to do?");
                 final EditText inputField = new EditText(this);
                 builderID.setView(inputField);
