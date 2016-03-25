@@ -11,9 +11,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import db.TaskContract;
 import db.TaskDBHelper;
@@ -33,15 +37,15 @@ public class MainActivity extends ListActivity {
         helper = new TaskDBHelper(MainActivity.this);
         SQLiteDatabase sqlDB = helper.getReadableDatabase();
         Cursor cursor = sqlDB.query(TaskContract.TABLE,
-                new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
+                new String[]{TaskContract.Columns._ID, TaskContract.Columns.TASK, TaskContract.Columns.TASK_DATE, TaskContract.Columns.TASK_TYPE},
                 null, null, null, null, TaskContract.Columns.TASK_TYPE);
 
         AdvSimpleCursorAdapter listAdapter = new AdvSimpleCursorAdapter(
                 this,
                 R.layout.task_view,
                 cursor,
-                new String[]{TaskContract.Columns.TASK, TaskContract.Columns.TASK_TYPE},
-                new int[]{R.id.taskTextView, R.id.taskViewLayout},
+                new String[]{TaskContract.Columns.TASK, TaskContract.Columns.TASK_DATE, TaskContract.Columns.TASK_TYPE},
+                new int[]{R.id.taskTextView, R.id.taskDateView, R.id.taskViewLayout},
                 0
         );
         
@@ -64,37 +68,54 @@ public class MainActivity extends ListActivity {
                 builderID.setTitle("Add a important task");
                 builderID.setMessage("What do you want to do?");
                 final EditText inputFieldID = new EditText(this);
+                final MainActivity passableThis = this;
+
                 builderID.setView(inputFieldID);
                 builderID.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Log.d("MainActivity",inputField.getText().toString());
-                        String task = inputFieldID.getText().toString();
-                        Log.d("MainActivity", task);
+                        final String taskName = inputFieldID.getText().toString();
 
-                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
-                        SQLiteDatabase db = helper.getWritableDatabase();
-                        ContentValues values = new ContentValues();
+                        Log.d("MainActivity", taskName);
 
-                        values.clear();
-                        values.put(TaskContract.Columns.TASK, task);
-                        values.put(TaskContract.Columns.TASK_TYPE, 1);
+                        final String taskDate = "1900-01-01 00:00:00 UTC"; //TODO: take value from datepicker
 
-                        db.insertWithOnConflict(TaskContract.TABLE, null, values,
-                                SQLiteDatabase.CONFLICT_IGNORE);
+                        AlertDialog.Builder builderDateID = new AlertDialog.Builder(passableThis);
+                        final DatePicker inputFieldDate = new DatePicker(passableThis);
+                        builderDateID.setView(inputFieldDate);
+                        builderDateID.setNegativeButton("Cancel", null);
+                        builderDateID.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                        updateUI();
+                                TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                                SQLiteDatabase db = helper.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+
+                                values.clear();
+                                values.put(TaskContract.Columns.TASK, taskName);
+                                values.put(TaskContract.Columns.TASK_TYPE, 1);
+                                values.put(TaskContract.Columns.TASK_DATE, taskDate);
+
+                                db.insertWithOnConflict(TaskContract.TABLE, null, values,
+                                        SQLiteDatabase.CONFLICT_IGNORE);
+
+                                updateUI();
+                            }
+                        });
+
+                        builderDateID.create().show();
+                        Log.d("date", Integer.toString(inputFieldDate.getYear()));
+
+
                     }
                 });
 
                 builderID.setNegativeButton("Cancel", null);
 
                 builderID.create().show();
-
-//                final DatePicker dateFieldIO = new DatePicker(this);
-//                builderID.setView(dateFieldIO);
-//                builderID.create().show();
-//
+                
                 return true;
 
             case R.id.action_add_IO: //Important Open
