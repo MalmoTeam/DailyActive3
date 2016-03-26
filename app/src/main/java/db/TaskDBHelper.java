@@ -22,11 +22,13 @@ public class TaskDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqlDB) {
         String sqlQuery =
                 String.format("CREATE TABLE %s (" +
-                                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                "%s TEXT, %s INTEGER, %s TEXT)", TaskContract.TABLE,
+                                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " + "%s TEXT" +
+                                "%s TEXT, %s INTEGER, %s TEXT)",
+                        TaskContract.TABLE,
+                        TaskContract.Columns._ID, //here /M
                         TaskContract.Columns.TASK,
                         TaskContract.Columns.TASK_TYPE,
-                        TaskContract.Columns.TASK_DATE);
+                        TaskContract.Columns.TASK_DATE); //Time not working /M
 
         Log.d("TaskDBHelper", "Query to form table: " + sqlQuery);
         sqlDB.execSQL(sqlQuery);

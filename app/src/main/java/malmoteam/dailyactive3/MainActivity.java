@@ -145,7 +145,7 @@ public class MainActivity extends ListActivity {
 
             case R.id.action_add_IO: //Important Open
                 AlertDialog.Builder builderIO = new AlertDialog.Builder(this);
-                builderIO.setTitle("Add a Important Open Task");
+                builderIO.setTitle("Add an Important Open Task");
                 builderIO.setMessage("What do you want to do?");
                 final EditText inputFieldIO = new EditText(this);
                 builderIO.setView(inputFieldIO);
@@ -178,7 +178,7 @@ public class MainActivity extends ListActivity {
 
             case R.id.action_add_ND:
                 AlertDialog.Builder builderND = new AlertDialog.Builder(this);
-                builderND.setTitle("Add a non important task with dead line");
+                builderND.setTitle("Add a non-important task with deadline");
                 builderND.setMessage("What do you want to do?");
                 final EditText inputFieldND = new EditText(this);
                 builderND.setView(inputFieldND);
@@ -233,7 +233,7 @@ public class MainActivity extends ListActivity {
 
             case R.id.action_add_NO:
                 AlertDialog.Builder builderNO = new AlertDialog.Builder(this);
-                builderNO.setTitle("Add a non important task");
+                builderNO.setTitle("Add a non-important task");
                 builderNO.setMessage("What do you want to do?");
                 final EditText inputFieldNO = new EditText(this);
                 builderNO.setView(inputFieldNO);
@@ -278,6 +278,7 @@ public class MainActivity extends ListActivity {
                 TaskContract.TABLE,
                 TaskContract.Columns.TASK,
                 task); //it has small bug the all task with same name will be deleted
+                        //know exactly where the problem is /Marija
 
         helper = new TaskDBHelper(MainActivity.this);
         SQLiteDatabase sqlDB = helper.getWritableDatabase();
