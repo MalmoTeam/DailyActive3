@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -79,6 +80,7 @@ public class MainActivity extends ListActivity {
                 builderID.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         final String taskName = inputFieldID.getText().toString();
 
                         AlertDialog.Builder builderDateID = new AlertDialog.Builder(passableThis);
@@ -89,33 +91,48 @@ public class MainActivity extends ListActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
-                                SQLiteDatabase db = helper.getWritableDatabase();
-                                ContentValues values = new ContentValues();
+                                AlertDialog.Builder builderTimeID = new AlertDialog.Builder(passableThis);
+                                final TimePicker inputFieldTime = new TimePicker(passableThis);
+                                builderTimeID.setView(inputFieldTime);
+                                builderTimeID.setNegativeButton("Cancel", null);
+                                builderTimeID.setPositiveButton("Pick", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        TaskDBHelper helper = new TaskDBHelper(MainActivity.this);
+                                        SQLiteDatabase db = helper.getWritableDatabase();
+                                        ContentValues values = new ContentValues();
 
-//                                TimeZone tz = TimeZone.getTimeZone("UTC");
-//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                df.setTimeZone(tz);
-                                Date d = new Date(inputFieldDate.getYear() - 1900,inputFieldDate.getMonth(),inputFieldDate.getDayOfMonth());
+//                                      TimeZone tz = TimeZone.getTimeZone("UTC");
+                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+//                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//                                      df.setTimeZone(tz);
 
-                                String taskDate = df.format(d);
+                                        Date d = new Date(inputFieldDate.getYear() - 1900,
+                                                inputFieldDate.getMonth(),
+                                                inputFieldDate.getDayOfMonth());
 
-                                values.clear();
-                                values.put(TaskContract.Columns.TASK, taskName);
-                                values.put(TaskContract.Columns.TASK_TYPE, 1);
-                                values.put(TaskContract.Columns.TASK_DATE, taskDate);
+                                        Calendar c;
 
-                                db.insertWithOnConflict(TaskContract.TABLE, null, values,
-                                        SQLiteDatabase.CONFLICT_IGNORE);
+                                        String taskDate = df.format(d);
 
-                                updateUI();
+                                        values.clear();
+                                        values.put(TaskContract.Columns.TASK, taskName);
+                                        values.put(TaskContract.Columns.TASK_TYPE, 1);
+                                        values.put(TaskContract.Columns.TASK_DATE, taskDate);
+
+                                        db.insertWithOnConflict(TaskContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+
+                                        updateUI();
+
+                                    }
+                                });
+
+                                builderTimeID.create().show();
                             }
                         });
 
                         builderDateID.create().show();
                         Log.d("date", Integer.toString(inputFieldDate.getYear()));
-
 
                     }
                 });
@@ -123,7 +140,7 @@ public class MainActivity extends ListActivity {
                 builderID.setNegativeButton("Cancel", null);
 
                 builderID.create().show();
-                
+
                 return true;
 
             case R.id.action_add_IO: //Important Open
