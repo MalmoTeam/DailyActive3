@@ -35,11 +35,11 @@
         android:layout_toLeftOf="@+id/doneButton"
         android:layout_alignBottom="@+id/doneButton"
         android:gravity="center_vertical"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         android:singleLine="true"
         android:nestedScrollingEnabled="false"
-        android:editable="true"
-        android:longClickable="true" />
+        android:editable="false"
+        android:longClickable="false" />
 
     <Button
         android:layout_width="wrap_content"

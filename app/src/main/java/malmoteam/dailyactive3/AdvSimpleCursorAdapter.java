@@ -79,16 +79,16 @@ public class AdvSimpleCursorAdapter extends SimpleCursorAdapter {
                         RelativeLayout rl = (RelativeLayout) v;
                         switch (text) {
                             case "1":
-                                rl.setBackgroundColor(Color.RED);
+                                rl.setBackgroundColor(0xFFFF3333);
                                 break;
                             case "2":
-                                rl.setBackgroundColor(Color.YELLOW);
+                                rl.setBackgroundColor(0xFFFFFF33);
                                 break;
                             case "3":
-                                rl.setBackgroundColor(Color.GREEN);
+                                rl.setBackgroundColor(0xFF33FF33);
                                 break;
                             case "4":
-                                rl.setBackgroundColor(Color.BLUE);
+                                rl.setBackgroundColor(0xFF3333FF);
                                 break;
                         }
                     } else {
