@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 import db.TaskContract;
 import db.TaskDBHelper;
@@ -121,10 +122,13 @@ public class MainActivity extends ListActivity {
                                         values.put(TaskContract.Columns.TASK, taskName);
                                         values.put(TaskContract.Columns.TASK_TYPE, 1);
                                         values.put(TaskContract.Columns.TASK_DATE, taskDate);
+                                        int notiNo = (int) Math.random() * 100000;
+                                        values.put(TaskContract.Columns.TASK_NOTIFICATION, notiNo);
 
                                         db.insertWithOnConflict(TaskContract.TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 
                                         updateUI();
+
 
                                     }
                                 });

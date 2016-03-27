@@ -22,7 +22,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqlDB) {
         String sqlQuery =
                 String.format("CREATE TABLE %s (" +
-                                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " + "%s TEXT" +
+                                "%s INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                 "%s TEXT, %s INTEGER, %s TEXT, %s INTEGER)",
                         TaskContract.TABLE,
                         TaskContract.Columns._ID, //here /M

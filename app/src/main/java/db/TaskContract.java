@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 public class TaskContract {
     public static final String DB_NAME = "malmoteam.dailyactive3.db.tasks";
-    public static final int DB_VERSION = 5; //version 3 I add task type to database, 4- add task date, 5- add notification
+    public static final int DB_VERSION = 6; //version 3 I add task type to database, 4- add task date, 5- add notification, 6- just increase to fix bug
     public static final String TABLE = "tasks";
 
     public class Columns {
