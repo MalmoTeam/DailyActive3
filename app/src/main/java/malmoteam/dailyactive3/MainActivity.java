@@ -109,7 +109,9 @@ public class MainActivity extends ListActivity {
 
                                         Date d = new Date(inputFieldDate.getYear() - 1900,
                                                 inputFieldDate.getMonth(),
-                                                inputFieldDate.getDayOfMonth());
+                                                inputFieldDate.getDayOfMonth(),
+                                                inputFieldTime.getCurrentHour().intValue(),
+                                                inputFieldTime.getCurrentMinute().intValue());
 
                                         Calendar c;
 
