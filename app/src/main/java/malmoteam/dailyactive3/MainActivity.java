@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -26,8 +25,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Random;
 
 import db.TaskContract;
 import db.TaskDBHelper;
@@ -78,7 +75,7 @@ public class MainActivity extends ListActivity {
         switch (item.getItemId()) {
             case R.id.action_add_ID: //important dead line
                 AlertDialog.Builder builderID = new AlertDialog.Builder(this);
-                builderID.setTitle("Add a important task");
+                builderID.setTitle("Add a important task with deadline");
                 builderID.setMessage("What do you want to do?");
                 final EditText inputFieldID = new EditText(this);
 
