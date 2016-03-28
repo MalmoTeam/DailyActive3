@@ -1,9 +1,14 @@
 package malmoteam.dailyactive3;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -53,9 +58,9 @@ public class MainActivity extends ListActivity {
                 new int[]{R.id.taskTextView, R.id.taskDateView, R.id.taskViewLayout},
                 0
         );
-        
+
         this.setListAdapter(listAdapter);
-        
+
     }
 
     @Override
@@ -107,16 +112,17 @@ public class MainActivity extends ListActivity {
                                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
 //                                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //                                      df.setTimeZone(tz);
+                                        int y, m, d, h, n;
 
-                                        Date d = new Date(inputFieldDate.getYear() - 1900,
-                                                inputFieldDate.getMonth(),
-                                                inputFieldDate.getDayOfMonth(),
-                                                inputFieldTime.getCurrentHour().intValue(),
-                                                inputFieldTime.getCurrentMinute().intValue());
+                                        y = inputFieldDate.getYear();
+                                        m = inputFieldDate.getMonth();
+                                        d = inputFieldDate.getDayOfMonth();
+                                        h = inputFieldTime.getCurrentHour().intValue();
+                                        n = inputFieldTime.getCurrentMinute().intValue();
 
-                                        Calendar c;
+                                        Date date = new Date(y - 1900, m, d, h, n);
 
-                                        String taskDate = df.format(d);
+                                        String taskDate = df.format(date);
 
                                         values.clear();
                                         values.put(TaskContract.Columns.TASK, taskName);
@@ -129,6 +135,32 @@ public class MainActivity extends ListActivity {
 
                                         updateUI();
 
+                                        //Notitification
+                                        Intent myIntent = new Intent(passableThis, MainActivity.class);
+
+                                        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                                        PendingIntent pendingIntent = PendingIntent.getService(passableThis, 0, myIntent, 0);
+
+                                        Calendar cal = Calendar.getInstance();
+                                        cal.set(Calendar.HOUR_OF_DAY, h);
+                                        cal.set(Calendar.MINUTE, m);
+                                        cal.set(Calendar.SECOND, 59); //later to change it to 0 now for test
+
+                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 0, pendingIntent);  //set repeating every 24 hours
+
+//                                        PendingIntent pIntent = PendingIntent.getActivity(passableThis, (int) System.currentTimeMillis(), intent, 0);
+
+// build notification
+// the addAction re-use the same intent to keep the example short
+                                        Notification noti = new Notification.Builder(passableThis)
+                                                .setContentTitle("Daily Active")
+                                                .setContentText(taskName)
+                                                .setSmallIcon(R.drawable.add_red)
+                                                .setAutoCancel(true).build();
+
+                                        NotificationManager nM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                                        nM.notify(0, noti);
 
                                     }
                                 });
@@ -208,8 +240,8 @@ public class MainActivity extends ListActivity {
                                 ContentValues values = new ContentValues();
 
 //                                TimeZone tz = TimeZone.getTimeZone("UTC");
-//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
-                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //                                df.setTimeZone(tz);
                                 Date d = new Date(inputFieldDate.getYear() - 1900, inputFieldDate.getMonth(), inputFieldDate.getDayOfMonth());
 
@@ -284,7 +316,7 @@ public class MainActivity extends ListActivity {
                 TaskContract.TABLE,
                 TaskContract.Columns.TASK,
                 task); //it has small bug the all task with same name will be deleted
-                        //know exactly where the problem is /Marija
+        //know exactly where the problem is /Marija
 
         helper = new TaskDBHelper(MainActivity.this);
         SQLiteDatabase sqlDB = helper.getWritableDatabase();
