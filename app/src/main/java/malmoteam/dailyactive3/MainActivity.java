@@ -180,7 +180,7 @@ public class MainActivity extends ListActivity {
 
             case R.id.action_add_IO: //Important Open
                 AlertDialog.Builder builderIO = new AlertDialog.Builder(this);
-                builderIO.setTitle("Add an Important Open Task");
+                builderIO.setTitle("Add an Important Open Task without deadline");
                 builderIO.setMessage("What do you want to do?");
                 final EditText inputFieldIO = new EditText(this);
                 builderIO.setView(inputFieldIO);
@@ -268,7 +268,7 @@ public class MainActivity extends ListActivity {
 
             case R.id.action_add_NO:
                 AlertDialog.Builder builderNO = new AlertDialog.Builder(this);
-                builderNO.setTitle("Add a non-important task");
+                builderNO.setTitle("Add a non-important task without dealine");
                 builderNO.setMessage("What do you want to do?");
                 final EditText inputFieldNO = new EditText(this);
                 builderNO.setView(inputFieldNO);
