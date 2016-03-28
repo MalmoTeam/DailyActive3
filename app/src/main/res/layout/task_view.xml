@@ -32,7 +32,7 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
         android:textSize="20dp"
-        android:layout_toLeftOf="@+id/doneButton"
+        android:layout_toLeftOf="@+id/shareButton"
         android:layout_alignBottom="@+id/doneButton"
         android:gravity="center_vertical"
         android:textIsSelectable="false"
@@ -41,6 +41,18 @@
         android:editable="false"
         android:longClickable="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:layout_toLeftOf="@+id/doneButton"
+        android:layout_alignBottom="@+id/doneButton"
+        android:id="@+id/shareButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="false"
+        android:onClick="onShareButtonClick"
+        android:visibility="visible"
+        android:layout_alignParentEnd="false" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

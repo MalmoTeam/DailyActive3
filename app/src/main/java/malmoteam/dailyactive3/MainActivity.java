@@ -141,7 +141,7 @@ public class MainActivity extends ListActivity {
                                         Calendar cal = Calendar.getInstance();
                                         cal.set(Calendar.HOUR_OF_DAY, h);
                                         cal.set(Calendar.MINUTE, m);
-                                        cal.set(Calendar.SECOND, 59); //later to change it to 0 now for test
+                                        cal.set(Calendar.SECOND, 0);
 
                                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 0, pendingIntent);  //set repeating every 24 hours
 
@@ -157,7 +157,7 @@ public class MainActivity extends ListActivity {
 
                                         NotificationManager nM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                                        nM.notify(0, noti);
+                                        nM.notify(notiNo, noti);
 
                                     }
                                 });
@@ -237,8 +237,8 @@ public class MainActivity extends ListActivity {
                                 ContentValues values = new ContentValues();
 
 //                                TimeZone tz = TimeZone.getTimeZone("UTC");
-                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
-//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //                                df.setTimeZone(tz);
                                 Date d = new Date(inputFieldDate.getYear() - 1900, inputFieldDate.getMonth(), inputFieldDate.getDayOfMonth());
 
@@ -319,5 +319,14 @@ public class MainActivity extends ListActivity {
         SQLiteDatabase sqlDB = helper.getWritableDatabase();
         sqlDB.execSQL(sql);
         updateUI();
+    }
+
+    public void onShareButtonClick(View view) {
+        View v = (View) view.getParent();
+        TextView taskTextView = (TextView) v.findViewById(R.id.taskTextView);
+        String task = taskTextView.getText().toString();
+
+        //TODO: share this task to facebook
+
     }
 }
