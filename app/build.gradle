@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'malmo team Key'
+            keyPassword 'malmoTeam'
+            storeFile file('C:/Android/KeyStore/MalmoTeamKeyStore.jks')
+            storePassword 'malmoTeam'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {
@@ -28,7 +37,6 @@ repositories {
 dependencies {
     //facebook
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
