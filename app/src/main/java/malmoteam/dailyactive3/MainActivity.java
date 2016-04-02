@@ -20,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+//facebook
+import com.facebook.FacebookSdk;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,8 @@ public class MainActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         updateUI();
     }
