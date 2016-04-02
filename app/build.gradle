@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'malmo team Key'
+            keyAlias 'malmo team KeyStore'
             keyPassword 'malmoTeam'
             storeFile file('C:/Android/KeyStore/MalmoTeamKeyStore.jks')
             storePassword 'malmoTeam'

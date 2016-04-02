@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 //facebook
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,24 @@ public class MainActivity extends ListActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         updateUI();
+    }
+
+    //facebook
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    //facebook
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 
     private void updateUI() {
