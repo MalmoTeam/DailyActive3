@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,8 +22,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 //facebook
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,6 +37,10 @@ import db.TaskContract;
 import db.TaskDBHelper;
 
 public class MainActivity extends ListActivity {
+    //facebook
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+
     private TaskDBHelper helper;
 
 
@@ -41,6 +49,10 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+
+
         setContentView(R.layout.activity_main);
         updateUI();
     }
@@ -341,5 +353,10 @@ public class MainActivity extends ListActivity {
 
         //TODO: share this task to facebook
         Log.d("Facebook Share", "Test facebook share:" + task);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com")).build();
+        ShareDialog.show(this, content);
+
+
     }
 }
