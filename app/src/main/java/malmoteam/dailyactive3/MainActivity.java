@@ -25,6 +25,7 @@ import android.widget.TimePicker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
@@ -51,7 +52,6 @@ public class MainActivity extends ListActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
-
 
         setContentView(R.layout.activity_main);
         updateUI();
@@ -353,8 +353,12 @@ public class MainActivity extends ListActivity {
 
         //TODO: share this task to facebook
         Log.d("Facebook Share", "Test facebook share:" + task);
+
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com")).build();
+                .setContentDescription(task)
+                .setContentTitle("Daily Active")
+                .setContentUrl(Uri.parse("https://www.facebook.com/dailyactive3"))
+                .build();
         ShareDialog.show(this, content);
 
 
