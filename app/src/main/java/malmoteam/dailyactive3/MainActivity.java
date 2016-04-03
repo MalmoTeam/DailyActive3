@@ -45,22 +45,12 @@ public class MainActivity extends ListActivity {
         updateUI();
     }
 
-    //facebook
     @Override
     protected void onResume() {
         super.onResume();
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
-    }
-
-    //facebook
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     private void updateUI() {
@@ -350,6 +340,6 @@ public class MainActivity extends ListActivity {
         String task = taskTextView.getText().toString();
 
         //TODO: share this task to facebook
-
+        Log.d("Facebook Share", "Test facebook share:" + task);
     }
 }
