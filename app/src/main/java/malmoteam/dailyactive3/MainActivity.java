@@ -50,6 +50,7 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
+
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
 

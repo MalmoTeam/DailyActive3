@@ -30,9 +30,11 @@ android {
 }
 
 //facebook
+/*
 repositories {
     mavenCentral()
 }
+*/
 
 dependencies {
     //facebook
